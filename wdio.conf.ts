@@ -61,6 +61,12 @@ export const config: Options.Testrunner = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
+        "goog:chromeOptions":{
+            args:["--disable-web-security"]
+        },
+        maxInstances:5,
+        acceptInsecureCerts:true,
+        timeouts:{implicit:2000,pageLoad:20000,script:30000},
         browserName: 'chrome'
     }],
 
@@ -95,7 +101,7 @@ export const config: Options.Testrunner = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    // baseUrl: 'https://the-internet.herokuapp.com',
+     baseUrl: 'https://the-internet.herokuapp.com',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -141,7 +147,8 @@ export const config: Options.Testrunner = {
         // <string[]> (file/dir) require files before executing features
         require: ['./tests/features/step-definitions/given.js',
                     './tests/features/step-definitions/when.js',
-                  //  './tests/features/step-definitions/then.js'
+                   './tests/features/step-definitions/then.js',
+                   './tests/features/step-definitions/demo.js'
         ],
         // <boolean> show full backtrace for errors
         backtrace: false,
@@ -161,9 +168,9 @@ export const config: Options.Testrunner = {
         // <boolean> fail if there are any undefined or pending steps
         strict: false,
         // <string> (expression) only execute the features or scenarios with tags matching the expression
-        tagExpression: '@Inventory',
+        tagExpression: '',
         // <number> timeout for step definitions
-        timeout: 60000,
+        timeout: 120000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
         ignoreUndefinedDefinitions: false
     },
