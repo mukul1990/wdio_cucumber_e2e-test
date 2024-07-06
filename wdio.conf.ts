@@ -1,5 +1,7 @@
 import type { Options } from '@wdio/types'
 import dotenv from "dotenv"
+import fs from "fs"
+
 //const  {Options}  = require('@wdio/types');
 //const dotenv = require('dotenv');
 dotenv.config()
@@ -157,7 +159,17 @@ export const config: Options.Testrunner = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [['allure', {outputDir: 'allure-results'}]],
+    reporters: [['allure', {outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        useCucumberStepReporter:true,
+        disableWebdriverScreenshotsReporting: false,
+        reportedEnvironmentVars: {
+            Browser: 'Chrome',
+            Platform: 'Windows 10',
+            NodeVersion: process.version,
+            HeadlessMode: process.env.HEADLESS,
+        }
+    }]],
 
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
@@ -206,8 +218,14 @@ export const config: Options.Testrunner = {
      * @param {object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+        //@ts-ignore
+        if(process.env.RUNNER="LOCAL" && fs.existsSync("./allure-results"))
+        {
+            fs.rmdirSync("./allure-results",{recursive:true})
+        }
+
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialize specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -276,7 +294,6 @@ export const config: Options.Testrunner = {
             //@ts-ignore
             context.testID=arr[0].trim()
              //@ts-ignore
-    console.log(`>>testID from before scenario:${context.testID}`)
             //@ts-ignore
             if (!context.testID)
               throw Error(
@@ -337,6 +354,8 @@ export const config: Options.Testrunner = {
      * @param {GherkinDocument.IFeature} feature  Cucumber feature object
      */
     // afterFeature: function (uri, feature) {
+     
+    
     // },
     
     /**

@@ -6,12 +6,12 @@ Given(/^As (a|an) (.*) user Login to Inventory web app$/,async function(prefixTe
     console.log(`>>The User Type:${userType}`)
     this.appID="app1234"
     const testid=this.testID
-    console.log(`>>Given step Test ID : ${testid}`)
+    console.log(`>>Given ${testid} has been executed on platform ${process.env.PLATFORM}`)
     logger.info(`${testid} started to login into sause web app`)
     let dt=dataTable.hashes()
-    console.log(`>>type of user:${typeof dt}`)
-    console.log(`>>type of user:${dt.constructor}`)
-    console.log(`>>userType values:${JSON.stringify(dt)}`)
+    // console.log(`>>type of user:${typeof dt}`)
+    // console.log(`>>type of user:${dt.constructor}`)
+    // console.log(`>>userType values:${JSON.stringify(dt)}`)
     //console.log('Browser Config:', browser.config);
     await browser.url("https://www.saucedemo.com/");
     await browser.maximizeWindow()

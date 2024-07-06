@@ -1,10 +1,10 @@
 //const { Given, Then, When } = require("@wdio/cucumber-framework");
+import { addAllureId } from "@wdio/allure-reporter";
 import { Given, Then, When } from "@wdio/cucumber-framework";
 import {expect} from "chai"
 //import {config} from `${process.cwd()}/wdio.conf.ts`
 Given(/^Open Google page$/, async function () {
   await browser.url("https://www.google.com/");
- // await browser.setTimeout({implicit:15000,pageLoad:2000});
   await browser.maximizeWindow()
 });
 
