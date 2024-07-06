@@ -1,10 +1,26 @@
 import { Given} from "@wdio/cucumber-framework";
+import logger from "../../../helpers/logger.js"
 
-Given(/^Login to Inventory app$/,async function(){
-  try {
-      await browser.url("https://www.saucedemo.com/");
-      await $(`#user-name`).setValue("standard_userr");
-      await $(`#password`).setValue("secret_sauce");
+Given(/^As (a|an) (.*) user Login to Inventory web app$/,async function(prefixText,userType,dataTable){
+
+    console.log(`>>The User Type:${userType}`)
+    this.appID="app1234"
+    const testid=this.testID
+    console.log(`>>Given step Test ID : ${testid}`)
+    logger.info(`${testid} started to login into sause web app`)
+    let dt=dataTable.hashes()
+    console.log(`>>type of user:${typeof dt}`)
+    console.log(`>>type of user:${dt.constructor}`)
+    console.log(`>>userType values:${JSON.stringify(dt)}`)
+    //console.log('Browser Config:', browser.config);
+    await browser.url("https://www.saucedemo.com/");
+    await browser.maximizeWindow()
+    try {
+    console.log(process.env.TEST_STD_USERNAME)
+    //let brw=await browser.config.sauseDemoURL
+      //await $(`#user-name`).setValue(process.env.TEST_STD_USERNAME);
+      await $(`#user-name`).setValue(dt[0].username);
+      await $(`#password`).setValue(process.env.TEST_STD_PASSWORD);
       await $(`#login-button`).click();
       let loginError  = await $(`.error-message-container.error`).isDisplayed();
         if (loginError ) 

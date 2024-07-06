@@ -1,10 +1,10 @@
 //const { Given, Then, When } = require("@wdio/cucumber-framework");
 import { Given, Then, When } from "@wdio/cucumber-framework";
 import {expect} from "chai"
-
-Given(/^Open Google$/, async function () {
+//import {config} from `${process.cwd()}/wdio.conf.ts`
+Given(/^Open Google page$/, async function () {
   await browser.url("https://www.google.com/");
-  await browser.setTimeout({implicit:15000,pageLoad:2000});
+ // await browser.setTimeout({implicit:15000,pageLoad:2000});
   await browser.maximizeWindow()
 });
 
@@ -33,6 +33,11 @@ browser.waitUntil(async function(){
   await expect(expectedTitle).to.equal(actualTitle);
   //await browser.debug()
 });
+
+Then(/^URL should match (.*)$/,async function(expectedURL){
+  let actualURL= await browser.getUrl()
+  await expect(expectedURL).to.equal(actualURL)
+})
 
 Given(/^A web page is opened$/,async function(){
   await browser.url("/tables");

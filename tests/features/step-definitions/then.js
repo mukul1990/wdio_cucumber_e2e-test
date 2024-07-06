@@ -1,7 +1,12 @@
 import { Then} from "@wdio/cucumber-framework";
 import {expect} from "chai"
+import logger from "../../../helpers/logger.js"
+
 Then(/^Validate all products have valid price$/,async function(){
   //get price list
+  const appID = this.appID;
+  const testid=this.testID
+  logger.info(`${testid} started validating the products price`)
   let itemsPrice = await $$(`.inventory_item_price`);
   let arr = [];
   for (let i = 0; i < itemsPrice.length; i++) {

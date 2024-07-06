@@ -1,6 +1,6 @@
 Feature: Web Interaction
 
-@demo
+@demo @dummy @debug
 Scenario: Interact with input Elements on Web Page
 
 Given A web page is opened

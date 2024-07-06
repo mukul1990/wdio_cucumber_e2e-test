@@ -1,4 +1,11 @@
 import type { Options } from '@wdio/types'
+import dotenv from "dotenv"
+//const  {Options}  = require('@wdio/types');
+//const dotenv = require('dotenv');
+dotenv.config()
+let headless=process.env.HEADLESS
+let debug=process.env.DEBUG
+console.log(`<<The Headless flag:${headless}`)
 export const config: Options.Testrunner = {
     //export const config  = {
     //
@@ -62,8 +69,18 @@ export const config: Options.Testrunner = {
     //
     capabilities: [{
         "goog:chromeOptions":{
-            args:["--disable-web-security"]
+            args:headless.toUpperCase()==='Y'?["--disable-web-security","--headless"]:[]
         },
+
+        /*
+        //Additional chrome options
+        --disable-dev-shm-options
+        --no--sandbox
+        --window-size=1920,1080
+        --disble-gpu
+        --proxy-server
+        --auth-server-whitelist="_"
+        */
         maxInstances:5,
         acceptInsecureCerts:true,
         timeouts:{implicit:2000,pageLoad:20000,script:30000},
@@ -77,7 +94,7 @@ export const config: Options.Testrunner = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'error',
+    logLevel: debug.toUpperCase()==='Y'?'info': 'error',
     //
     // Set specific log levels per logger
     // loggers:
@@ -252,8 +269,20 @@ export const config: Options.Testrunner = {
      * @param {ITestCaseHookParameter} world    world object containing information on pickle and test step
      * @param {object}                 context  Cucumber World object
      */
-    // beforeScenario: function (world, context) {
-    // },
+    beforeScenario: function (world, context) {
+       // console.log(world)
+        let arr= world.pickle.name.split(/:/)
+        if(arr.length>0)
+            //@ts-ignore
+            context.testID=arr[0].trim()
+             //@ts-ignore
+    console.log(`>>testID from before scenario:${context.testID}`)
+            //@ts-ignore
+            if (!context.testID)
+              throw Error(
+                `Error getting testid for current scenario:${world.pickle.name}`
+              );
+    },
     /**
      *
      * Runs before a Cucumber Step.
@@ -261,8 +290,11 @@ export const config: Options.Testrunner = {
      * @param {IPickle}            scenario scenario pickle
      * @param {object}             context  Cucumber World object
      */
-    // beforeStep: function (step, scenario, context) {
-    // },
+    //context.appID=""
+      beforeStep: function (step, scenario, context) {
+         //@ts-ignore
+        context.appID=context.appID || '';
+     },
     /**
      *
      * Runs after a Cucumber Step.
@@ -274,8 +306,18 @@ export const config: Options.Testrunner = {
      * @param {number}             result.duration  duration of scenario in milliseconds
      * @param {object}             context          Cucumber World object
      */
-    // afterStep: function (step, scenario, result, context) {
-    // },
+     afterStep: async function (step, scenario, result, context) {
+        // console.log(`>>step info:${JSON.stringify(step)}`)   
+        // console.log(`>>scenario info:${JSON.stringify(scenario)}`)   
+        // console.log(`>>result info:${JSON.stringify(result)}`)   
+        //@ts-ignore
+        //context.appID=""
+        if(!result.passed)
+            {
+                await browser.takeScreenshot();
+            } 
+    },
+
     /**
      *
      * Runs after a Cucumber Scenario.
