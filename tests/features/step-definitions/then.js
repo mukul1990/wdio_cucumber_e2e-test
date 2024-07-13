@@ -4,6 +4,7 @@ import logger from "../../../helpers/logger.js"
 
 Then(/^Validate all products have valid price$/,async function(){
   //get price list
+
   const appID = this.appID;
   const testid=this.testID
   logger.info(`${testid} started validating the products price`)
