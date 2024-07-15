@@ -4,6 +4,7 @@ import allure from "@wdio/allure-reporter"
 import reporter from "../../../helpers/reporter.js"
 
 Given(/^As (a|an) (.*) user Login to Inventory web app$/,async function(prefixText,userType,dataTable){
+  console.log(JSON.stringify(browser.options.environment))
   console.log(`>>The User Type:${userType}`);
   this.appID = "app1234";
   const testid = this.testID;

@@ -1,20 +1,24 @@
 import type { Options } from '@wdio/types'
 import dotenv from "dotenv"
 import fs from "fs"
+import {platform} from "../E2E_wdio_automation/data/global.js"
 
-//const  {Options}  = require('@wdio/types');
-//const dotenv = require('dotenv');
+// Function to get the environment value
+
+
 dotenv.config()
 let headless=process.env.HEADLESS
 let debug=process.env.DEBUG
+
 console.log(`<<The Headless flag:${headless}`)
 export const config: Options.Testrunner = {
-    //export const config  = {
+    //export const config  = {          
     //
     // ====================
     // Runner Configuration
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
+  
     runner: 'local',
     autoCompileOpts: {
         autoCompile: true,
@@ -159,13 +163,19 @@ export const config: Options.Testrunner = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
+
+    // before: async function (capabilities, specs) {
+       
+    //     //global.platform = await browser.options.environment || 'Unknown Platform';
+    // },
+
     reporters: [['allure', {outputDir: 'allure-results',
         disableWebdriverStepsReporting: true,
         useCucumberStepReporter:true,
         disableWebdriverScreenshotsReporting: false,
         reportedEnvironmentVars: {
             Browser: 'Chrome',
-            Platform: 'Windows 10',
+            Platform: platform,
             NodeVersion: process.version,
             HeadlessMode: process.env.HEADLESS,
         }
@@ -263,8 +273,7 @@ export const config: Options.Testrunner = {
      * @param {Array.<String>} specs        List of spec file paths that are to be run
      * @param {object}         browser      instance of created browser/device session
      */
-    // before: function (capabilities, specs) {
-    // },
+   
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {string} commandName hook command name
@@ -345,7 +354,9 @@ export const config: Options.Testrunner = {
      * @param {number}                 result.duration  duration of scenario in milliseconds
      * @param {object}                 context          Cucumber World object
      */
-    // afterScenario: function (world, result, context) {
+    // afterScenario: async function (world, result, context) {
+    //     //@ts-ignore
+    //     console.log(JSON.stringify(browser.options))
     // },
     /**
      *
