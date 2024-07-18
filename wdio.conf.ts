@@ -7,8 +7,8 @@ import {platform} from "../E2E_wdio_automation/data/global.js"
 
 
 dotenv.config()
-let headless=process.env.HEADLESS
-let debug=process.env.DEBUG
+let headless:boolean = process.env.HEADLESS?.toUpperCase() === 'Y';
+ let debug:boolean = process.env.DEBUG?.toUpperCase() === 'Y';
 
 console.log(`<<The Headless flag:${headless}`)
 export const config: Options.Testrunner = {
@@ -75,7 +75,7 @@ export const config: Options.Testrunner = {
     //
     capabilities: [{
         "goog:chromeOptions":{
-            args:headless.toUpperCase()==='Y'?["--disable-web-security","--headless"]:[]
+            args: headless ? ["--disable-web-security", "--headless"] : []
         },
 
         /*
@@ -100,7 +100,7 @@ export const config: Options.Testrunner = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: debug.toUpperCase()==='Y'?'info': 'error',
+    logLevel: debug?'info': 'error',
     //
     // Set specific log levels per logger
     // loggers:

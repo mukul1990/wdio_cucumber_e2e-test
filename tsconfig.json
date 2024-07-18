@@ -3,8 +3,10 @@
         "moduleResolution": "node",
         "module": "ESNext",
         "target": "ESNext",
+        "esModuleInterop": true,
+        "allowJs": true,
         "lib": [
-            "ES2019",
+           "ES2019",
             "dom"
         ],
         "types": [
@@ -19,8 +21,8 @@
         "allowImportingTsExtensions": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "strict": false,
-        "esModuleInterop": true,
+        "strict": true,
+        "allowSyntheticDefaultImports": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true

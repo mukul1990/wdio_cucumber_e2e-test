@@ -2,8 +2,9 @@ import { Given} from "@wdio/cucumber-framework";
 import logger from "../../../helpers/logger.js"
 import allure from "@wdio/allure-reporter"
 import reporter from "../../../helpers/reporter.js"
+import sauseHomePage from "../../pageObjects/sause.home.page.js";
 
-Given(/^As (a|an) (.*) user Login to Inventory web app$/,async function(prefixText,userType,dataTable){
+/*Given(/^As (a|an) (.*) user Login to Inventory web app$/,async function(prefixText,userType,dataTable){
   console.log(JSON.stringify(browser.options.environment))
   console.log(`>>The User Type:${userType}`);
   this.appID = "app1234";
@@ -55,5 +56,22 @@ Given(/^As (a|an) (.*) user Login to Inventory web app$/,async function(prefixTe
   //   await $(`#login-button`).click();
   //   await browser.debug();
   reporter.addStep(this.testID, "debug", "login is successfull");
-});
+});*/
 
+//**Given step definition using POM */
+Given(/^As (a|an) (.*) user Login to Inventory web app$/,async function(prefixText,userType,dataTable){
+  
+  try {
+    reporter.addStep(this.testID, "info", "Login to Sause App");
+    let dt = dataTable.hashes();
+    await sauseHomePage.navigateTo(browser.options.sauseDemoURL)
+    await sauseHomePage.LoginToSauseApp(this.testID,process.env.TEST_STD_USERNAME,process.env.TEST_STD_PASSWORD)
+  } catch (err) {
+    err.message=`Failed at login step, ${err.message}`
+    throw err
+  }
+    
+    
+  
+
+})

@@ -1,5 +1,7 @@
-import allure from "@wdio/allure-reporter";
+//import allure from "@wdio/allure-reporter";
+import  allure  from "@wdio/allure-reporter";
 import logger from "../helpers/logger.js";
+//import logger from "../helpers/logger";
 
 /**
  * Global reporter used for both logger and Allure.
@@ -12,7 +14,8 @@ import logger from "../helpers/logger.js";
  * @todo
  * 1. Add more param of allure reporter like add issue (to add an JIRA issue..etc)
  */
-function addStep(testid, loglevel, msg, toAllure = true, issueid = undefined) {
+
+ function addStep (testid, loglevel, msg, toAllure = true, issueid = undefined) {
     let arr = ["info", "debug", "warn", "error"]
     if (!testid) throw Error(`Invalid testid: ${testid} field to report step`)
     if (!msg) logger.error(`Given message: ${msg} is not valid to report`)
@@ -33,3 +36,4 @@ function addStep(testid, loglevel, msg, toAllure = true, issueid = undefined) {
     }
 }
 export default { addStep }
+ // export default{addStep}

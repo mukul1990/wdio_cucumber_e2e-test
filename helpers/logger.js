@@ -1,5 +1,5 @@
-import winston from "winston"
-
+//import winston from "winston"
+import  winston  from "winston";
 // Format console.log
 const consoleFormat = winston.format.printf(({ level, message
 }) => {
@@ -21,4 +21,5 @@ logger.on("error", error => {
     console.log("Unknown error in Winston logger")
     console.log(error.message)
 })
+//export default logger
 export default logger
