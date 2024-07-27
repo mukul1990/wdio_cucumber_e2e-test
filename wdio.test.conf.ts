@@ -4,6 +4,8 @@ import {platform} from "../E2E_wdio_automation/data/global.js"
 export const config=Object.assign(baseConfig,{
     environment:platform,
     sauseDemoURL:"https://www.saucedemo.com/",
+    reqresBaseURL:"https://reqres.in/",
+    nopCommerceURL:"https://admin-demo.nopcommerce.com/",
     sqlConfig:{
         user:process.env.DB_USER,
         password:process.env.DB_PASSWORD,

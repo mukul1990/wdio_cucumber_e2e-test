@@ -1,8 +1,11 @@
-import { Given} from "@wdio/cucumber-framework";
-import logger from "../../../helpers/logger.js"
-import allure from "@wdio/allure-reporter"
-import reporter from "../../../helpers/reporter.js"
+import { Given } from "@wdio/cucumber-framework";
+import logger from "../../../helpers/logger.js";
+import reporter from "../../../helpers/reporter.js";
 import sauseHomePage from "../../pageObjects/sause.home.page.js";
+import constants from "../../../data/sample/constants.json" assert { type: "json" };
+import apiHelper from "../../../helpers/apiResp_goat.js";
+import { expect } from "chai";
+import fs from "fs"
 
 /*Given(/^As (a|an) (.*) user Login to Inventory web app$/,async function(prefixText,userType,dataTable){
   console.log(JSON.stringify(browser.options.environment))
@@ -59,19 +62,78 @@ import sauseHomePage from "../../pageObjects/sause.home.page.js";
 });*/
 
 //**Given step definition using POM */
-Given(/^As (a|an) (.*) user Login to Inventory web app$/,async function(prefixText,userType,dataTable){
-  
-  try {
-    reporter.addStep(this.testID, "info", "Login to Sause App");
-    let dt = dataTable.hashes();
-    await sauseHomePage.navigateTo(browser.options.sauseDemoURL)
-    await sauseHomePage.LoginToSauseApp(this.testID,process.env.TEST_STD_USERNAME,process.env.TEST_STD_PASSWORD)
-  } catch (err) {
-    err.message=`Failed at login step, ${err.message}`
-    throw err
+Given(
+  /^As (a|an) (.*) user Login to Inventory web app$/,
+  async function (prefixText, userType, dataTable) {
+    try {
+      reporter.addStep(this.testID, "info", "Login to Sause App");
+      let dt = dataTable.hashes();
+      await sauseHomePage.navigateTo(browser.options.sauseDemoURL);
+      await sauseHomePage.LoginToSauseApp(
+        this.testID,
+        process.env.TEST_STD_USERNAME,
+        process.env.TEST_STD_PASSWORD
+      );
+    } catch (err) {
+      err.message = `Failed at login step, ${err.message}`;
+      throw err;
+    }
   }
-    
-    
-  
+);
 
-})
+Given(
+  /^Get list of (.*) from https:\/\/reqres.in\/$/,
+  async function (endpointRef) {
+    if (!endpointRef) {
+      throw Error(`Given Endpoint Ref:${endpointRef} is not valid`);
+    }
+    var testid=this.testID
+    try {
+      
+      reporter.addStep(
+        testid,
+        "info",
+        `Getting the payload for endpoint:${endpointRef}`
+      );
+      let endpoint = "";
+      if (endpointRef.trim().toUpperCase() === "USERS") {
+        endpoint = constants.REQRES.GET_USERS;
+      }
+      if (!endpoint) {
+        throw Error(`Error in getting endpoint ${endpoint} from constants.json`);
+      }
+  
+      /**Make a get call by using helper methods API helper */
+      let res;
+      await browser.call(async function () {
+        res = await apiHelper.GET(
+          testid,
+          "https://reqres.in",
+          endpoint,
+          constants.REQRES.queryParam
+        );
+      });
+      if (!res || typeof res.status === "undefined") {
+        throw new Error(`Invalid response received: ${JSON.stringify(res.body,null,2)}`);
+      }
+      if (res.status !== 200) {
+        expect.fail(
+          `failed getting users from:${constants.REQRES.reqresBaseURL}/${endpoint}`
+        );
+      }
+      reporter.addStep(
+        testid,
+        "info",
+        `API response received, data ${JSON.stringify(res.body,null,2)}`
+      );
+  
+    /** Store results in file*/
+      let data=JSON.stringify(res.body,undefined,4)
+      let fileName=`${process.cwd()}/data/apiRest/apiTest.json`
+      fs.writeFileSync(fileName,data)
+      reporter.addStep(testid,"info",`API response from ${endpoint} has been written in json file`)
+    } catch (err) {
+      err.message=`${testid}: Failed at getting API users from reqres, ${err.message}`
+      throw err
+    }
+  });

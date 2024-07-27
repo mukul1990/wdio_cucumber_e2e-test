@@ -1,13 +1,12 @@
-//import request from "../node_modules/supertest/lib/test.js";
-import express, { application } from "express/lib/express.js";
 import reporter from "./reporter.js";
 import request from "supertest";
-import Test from "supertest/lib/test.js";
+
 
 const baseURL = "https://reqres.in";
-const endpoint="/api/users"
+const endpoint = "/api/users";
 
-export async function GET(testid, endpoint, baseURL, queryParam) {
+async function GET(testid, baseURL, endpoint, queryParam) {
+  let res;
   try {
     if (!endpoint || !baseURL) {
       throw Error(
@@ -17,24 +16,26 @@ export async function GET(testid, endpoint, baseURL, queryParam) {
     baseURL = baseURL.trim();
     endpoint = endpoint.trim();
     reporter.addStep(testid, "info", `Making a Get to ${endpoint}`);
-    let res = await request(baseURL)
+    res = await request(baseURL)
       .get(endpoint)
       .set("Content-Type", "application/json")
       .set("Accept", "application/json")
       .query(queryParam)
       .expect(200);
 
-    console.log(JSON.stringify(res.body, null, 2));
+    //console.log(JSON.stringify(res.body, null, 2));
   } catch (err) {
     err.message = `Error in making a get request, ${endpoint}, ${err.message}`;
     throw err;
   }
+  return res;
 }
 
 const queryParam = { page: 5 };
-await GET("TC001", endpoint, baseURL, queryParam);
+//await GET("TC001", baseURL,endpoint, queryParam);
 
-export async function POST(testid, baseURL,endpoint , payload) {
+async function POST(testid, baseURL, endpoint, payload) {
+  let res
   try {
     if (!endpoint || !baseURL) {
       throw Error(
@@ -48,22 +49,24 @@ export async function POST(testid, baseURL,endpoint , payload) {
       "info",
       `Making a post request to an endpoint ${endpoint}`
     );
-    let res = await request(baseURL)
+     res = await request(baseURL)
       .post(endpoint)
       .set("Content-Type", "application/json")
       .set("Accept", "application/json")
       .send(payload);
-    console.log(JSON.stringify(res.body, null, 2));
+    //console.log(JSON.stringify(res.body, null, 2));
   } catch (err) {
     err.message = `Error in making post request to ${endpoint}, ${err}`;
     throw err;
   }
+  return res
 }
 
-let payload=
-{
-  "name": "morpheus",
-  "job": "leader"
-}
+let payload = {
+  name: "morpheus",
+  job: "leader",
+};
 
-await POST("TC002",baseURL,endpoint,payload)
+//await POST("TC002",baseURL,endpoint,payload)
+
+export default { GET, POST };

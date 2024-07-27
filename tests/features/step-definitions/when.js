@@ -2,6 +2,7 @@ import { When } from "@wdio/cucumber-framework";
 import { expect } from "chai";
 import logger from "../../../helpers/logger.js";
 import reporter from "../../../helpers/reporter.js";
+import nopcommereLoginPage from "../../pageObjects/nopcommere.Login.page.js";
 When(
   /^Inventory app should (.*)\s?list (.*)$/,
   async function (negativeCheck, numberOfProducts) {
@@ -33,3 +34,19 @@ When(
     }
   }
 );
+
+When(/^As an (.*) user login to nopcommerce site$/,async function(user){
+
+  if(!user){throw Error(`Given ${user} is not valid`)}
+  user=user.trim().toUpperCase()
+  try {
+    reporter.addStep(this.testID,"info",`Login to nocommerce website app`)
+    await nopcommereLoginPage.loginToNopCommerceWeb(this.testID,browser.options.nopCommerceURL,
+      process.env[`TEST_NOP_${user}_USERNAME`],
+      process.env[`TEST_NOP_${user}_PASSWORD`],
+    )
+  } catch (err) {
+    err.message=`${this.testID}:failed at nocommerce login step, ${err.message}`
+    throw err
+  }
+})
