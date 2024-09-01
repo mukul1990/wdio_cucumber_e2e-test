@@ -26,8 +26,8 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@types/chai": "^4.3.16",
-    "@types/jquery": "^3.5.30",
     "@types/node": "^20.14.11",
+    "@types/webdriverio": "^5.0.0",
     "@wdio/allure-reporter": "^8.39.0",
     "@wdio/cli": "^8.39.0",
     "@wdio/cucumber-framework": "^8.39.0",
@@ -38,13 +38,15 @@
     "chai": "^5.1.1",
     "cross-env": "^7.0.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "wdio-chromedriver-service": "^8.1.1"
   },
   "dependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.24.8",
     "@types/methods": "^1.1.4",
     "@types/supertest": "^6.0.2",
     "allure-commandline": "^2.29.0",
+    "chromedriver": "^128.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "supertest": "^7.0.0",

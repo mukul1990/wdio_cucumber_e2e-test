@@ -1,5 +1,5 @@
 
-export default class page
+ class page
 {
     constructor()
     {
@@ -33,3 +33,5 @@ export default class page
       await ele.setValue(text);
     }
 }
+
+export default page;

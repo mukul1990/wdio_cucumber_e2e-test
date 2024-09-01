@@ -67,7 +67,7 @@ export const config: Options.Testrunner = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 15,
+    maxInstances: 10,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -143,13 +143,13 @@ export const config: Options.Testrunner = {
     //
     // Default request retries count
     connectionRetryCount: 3,
-    //
+    //E:\workspace3\E2E_wdio_automation\node_modules\chromedriver\bin\chromedriver
+    //node_modules\chromedriver\bin\chromedriver
     // Test runner services
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-     //services: ['chromedriver','geckodriver'],
-    //
+     services: ['chromedriver'],
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: https://webdriver.io/docs/frameworks

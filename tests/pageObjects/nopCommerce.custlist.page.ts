@@ -15,7 +15,7 @@ class CustList extends page
 
     get searchBtn(){return $(".btn-search")}
 
-    get noResultMessage(){return $("td='No data available in table'")}
+    get noResultMessage(){return $("td='No data available in table'");}
 
     /** Page Actions*/
 
@@ -31,7 +31,7 @@ class CustList extends page
             await this.typeInto(await this.lastName,lastname)
             await this.click(await this.searchBtn)
             await browser.pause(1000)
-            let isNotDisplayed=await this.noResultMessage.isDisplayed()
+            let isNotDisplayed=await this.noResultMessage.isDisplayed();
             if(isNotDisplayed){nameNotExist=true}
         } catch (err) {
             err.message=`Failed searching given ${firstname} and ${lastname} on customer page, ${err}`
@@ -43,3 +43,7 @@ class CustList extends page
 }
 
 export default new CustList()
+
+export function isDisplayed() {
+    throw new Error("Function not implemented.")
+}
