@@ -1,6 +1,6 @@
 import page from "../pageObjects/page.js"
 import report from "../../helpers/reporter.js"
-
+declare const browser: any;
 
 class CustList extends page
 {
@@ -9,13 +9,14 @@ class CustList extends page
         super()
     }
     /**Page Objects */
-    get firstName(){return $("input[name='SearchFirstName']")}
+    get firstName(){return browser.$("input[name='SearchFirstName']")}
 
-    get lastName(){return $("input[name='SearchLastName']")}
 
-    get searchBtn(){return $(".btn-search")}
+    get lastName(){return browser.$("input[name='SearchLastName']");}
 
-    get noResultMessage(){return $("td='No data available in table'");}
+    get searchBtn(){return browser.$(".btn-search")}
+
+    get noResultMessage():any{return browser.$("td='No data available in table'");}
 
     /** Page Actions*/
 
@@ -27,9 +28,9 @@ class CustList extends page
         lastname=lastname.trim()
         report.addStep(testid,"info",`Searching User:${firstname} and ${lastname}`)
         try {
-            await this.typeInto(await this.firstName,firstname)
-            await this.typeInto(await this.lastName,lastname)
-            await this.click(await this.searchBtn)
+            await this.typeInto(this.firstName,firstname)
+            await this.typeInto( this.lastName,lastname)
+            await this.click( this.searchBtn)
             await browser.pause(1000)
             let isNotDisplayed=await this.noResultMessage.isDisplayed();
             if(isNotDisplayed){nameNotExist=true}
@@ -44,6 +45,4 @@ class CustList extends page
 
 export default new CustList()
 
-export function isDisplayed() {
-    throw new Error("Function not implemented.")
-}
+

@@ -67,7 +67,9 @@ export const config: Options.Testrunner = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
+   
     maxInstances: 10,
+    
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -77,7 +79,7 @@ export const config: Options.Testrunner = {
         "goog:chromeOptions":{
             args: headless ? ["--disable-web-security", "--headless"] : []
         },
-
+        
         /*
         //Additional chrome options
         --disable-dev-shm-options
@@ -90,10 +92,10 @@ export const config: Options.Testrunner = {
         maxInstances:5,
         acceptInsecureCerts:true,
         timeouts:{implicit:2000,pageLoad:20000,script:30000},
-        browserName: 'chrome',
+        browserName: process.env.BROWSER || 'chrome',
         },
         {
-            maxInstances:5,
+            maxInstances:3,
             acceptInsecureCerts:true,
             timeouts:{implicit:2000,pageLoad:20000,script:30000},
             browserName: 'firefox',

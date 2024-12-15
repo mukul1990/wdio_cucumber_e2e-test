@@ -1,5 +1,6 @@
 import Page from "../pageObjects/page.js";
 import reporter from "../../helpers/reporter.js";
+declare const browser: any;
 class HomePage extends Page {
   constructor() {
     super();
@@ -8,31 +9,31 @@ class HomePage extends Page {
   //**Page Objects */
 
   get usernameInputBox() {
-    return $(`#user-name`);
+    return browser.$(`#user-name`);
   }
 
   get passwordInputBox() {
-    return $(`#password`);
+    return browser.$(`#password`);
   }
 
   get loginBtn() {
-    return $(`#login-button`);
+    return browser.$(`#login-button`);
   }
 
   async enterUsername(testid: string, username: string) {
     try {
       if (!username) {
-        throw Error(`Given UserName ${username} is not valid`);
+        throw Error(`Given UserName browser.${username} is not valid`);
       }
       username = username.trim();
-      await this.typeInto(await this.usernameInputBox, username);
+      await this.typeInto(this.usernameInputBox, username);
       reporter.addStep(
         testid,
         "info",
-        `username ${username} entered Successfully`
+        `username browser.${username} entered Successfully`
       );
     } catch (err) {
-      err.message = `Error Entering Username: ${username},${err.message}`;
+      err.message = `Error Entering Username: browser.${username},browser.${err.message}`;
       throw err;
     }
   }
@@ -40,23 +41,23 @@ class HomePage extends Page {
   async enterUserpassword(testid: string, password: string) {
     try {
       if (!password) {
-        throw Error(`Given password ${password} is not valid`);
+        throw Error(`Given password browser.${password} is not valid`);
       }
       password = password.trim();
-      await this.typeInto(await this.passwordInputBox, password);
+      await this.typeInto(this.passwordInputBox, password);
       reporter.addStep(testid, "info", `password entered Successfully`);
     } catch (err) {
-      err.message = `Error in Entering Password: ${password}, ${err.message}`;
+      err.message = `Error in Entering Password: browser.${password}, browser.${err.message}`;
       throw err;
     }
   }
 
   async clickLoginBtn(testid: string) {
     try {
-      await this.click(await this.loginBtn);
+      await this.click( this.loginBtn);
       reporter.addStep(testid, "info", `Login button clicked Successfully`);
     } catch (err) {
-      err.message = `Error in clicking login Button, ${err.message}`;
+      err.message = `Error in clicking login Button, browser.${err.message}`;
       throw err;
     }
   }

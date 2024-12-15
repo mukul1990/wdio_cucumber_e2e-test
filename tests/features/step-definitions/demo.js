@@ -89,6 +89,7 @@ When (/^Perform table Interaction$/,async function(){
         website:"",
         action:""
       }
+     
       for(let j=0;j<columns.length;j++)
         {
           let cellValue= await $(`//table[@id='table1']//tbody//tr[${i+1}]//td[${j+1}]`).getText()

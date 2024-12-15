@@ -1,20 +1,21 @@
 import page from "../pageObjects/page.js";
 import report from "../../helpers/reporter.js";
+declare const browser: any;
 class LoginPage extends page {
   constructor() {
     super();
   }
 
   get userName() {
-    return $("#Email");
+    return browser.$("#Email");
   }
 
   get passWord() {
-    return $("#Password");
+    return browser.$("#Password");
   }
 
   get loginButton() {
-    return $(".button-1");
+    return browser.$(".button-1");
   }
 
   async loginToNopCommerceWeb(
@@ -26,7 +27,7 @@ class LoginPage extends page {
     if (!url || !username || !password) {
       throw Error(`Invalid Parameters are provided`);
     }
-    report.addStep(testid, "info", `Login has been Initiated to ${url}`);
+    report.addStep(testid, "info", `Login has been Initiated to browser.${url}`);
     url = url.trim();
     username = username.trim();
 
@@ -35,9 +36,9 @@ class LoginPage extends page {
       await this.typeInto(await this.userName,username);
       await this.typeInto(await this.passWord,password);
       await this.click(await this.loginButton);
-      report.addStep(testid,"info",`Login to ${url} app is successful`)
+      report.addStep(testid,"info",`Login to browser.${url} app is successful`)
     } catch (err) {
-      err.message = `Login to ${url} app is failed, ${err.message}`;
+      err.message = `Login to browser.${url} app is failed, browser.${err.message}`;
       throw err;
     } 
   }
